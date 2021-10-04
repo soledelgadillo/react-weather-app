@@ -19,7 +19,7 @@ function App() {
           <a
             href="https://infallible-lichterman-eea63d.netlify.app/"
             target="_blank"
-            rel="noopener noreferer"
+            rel="noopener noreferrer"
           >
             hosted on Netlify
           </a>
