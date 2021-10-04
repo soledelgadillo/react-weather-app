@@ -4,7 +4,7 @@ export default function TidyDate(props) {
   let days = ["Sunday", "Monday", "Tuesday", "Thursday", "Friday", "Saturday"];
   let day = days[props.date.getDay()];
   let hours = props.date.getHours();
-  let minutes = props.date.hetMinutes();
+  let minutes = props.date.getMinutes();
 
   if (hours < 10) {
     hours = `0${hours}`;
