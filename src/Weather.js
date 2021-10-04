@@ -3,23 +3,28 @@ import axios from "axios";
 import "./Weather.css";
 
 export default function Weather(props) {
-  
-  const [weatherData, setWeatherData] = useState({ ready: false }});
+  const [weatherData, setWeatherData] = useState({ ready: false });
 
   function handleResponse(response) {
-    console.log(response.data);
     setWeatherData({
       ready: true,
-      temperature: response.data.main.temp,
-      description: response.data.weather[0].description,
-      icon: response.data.weather.icon,
-      wind: response.data.wind.speed,
-      humidity: response.data.main.humidity,
       city: response.data.name,
+      coordinates: response.data.coord,
+      date: new Date(response.data.dt * 1000),
+      description: response.data.weather[0].description,
+      temperature: response.data.main.temp,
+      humidity: response.data.main.humidity,
+      wind: response.data.wind.speed,
+      icon: response.data.weather.icon,
       iconurl: "https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png",
-      date: "Wednesday 07:00",
     });
-    setReady(true);
+  }
+
+  function search() {
+    const apiKey = "3b3488bec2b782dc10ae81e429f8a644";
+    let unit = "metric";
+    let apiUrl = `https://api.openweather.org/data/2.5/weather?q=${props.defaultCity}&appid=${apiKey}&units=${unit}`;
+    axios.get(apiUrl).then(handleResponse);
   }
 
   if (weatherData.ready) {
@@ -47,7 +52,9 @@ export default function Weather(props) {
         <h1>{weatherData.city}</h1>
 
         <ul>
-          <li>{weatherData.date}</li>
+          <li>
+            <TidyDate date={weatherData.date} />
+          </li>
           <li className="text-capitalize">{weatherData.description}</li>
         </ul>
 
@@ -67,8 +74,7 @@ export default function Weather(props) {
           </div>
           <div className="col-6">
             <ul>
-              <li>Precipitation: 15%</li>{" "}
-              <li>Humidity: {weatherData.humidity}%</li>{" "}
+              <li>Humidity: {weatherData.humidity}%</li>
               <li>Wind: {weatherData.wind} km/h</li>
             </ul>
           </div>
@@ -76,12 +82,7 @@ export default function Weather(props) {
       </div>
     );
   } else {
-    const apiKey = "3b3488bec2b782dc10ae81e429f8a644";
-    let city = "London";
-    let unit = "metric";
-    let apiUrl = `https://api.openweather.org/data/2.5/weather?q=${props.defaultCity}&appid=${apiKey}&units=${unit}`;
-    axios.get(apiUrl).then(handleResponse);
-
+    search();
     return "Loading...";
   }
 }
