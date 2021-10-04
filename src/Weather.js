@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
 import WeatherInfo from "./WeatherInfo";
+
+import axios from "axios";
+
 import "./Weather.css";
 
 export default function Weather(props) {
@@ -17,8 +19,7 @@ export default function Weather(props) {
       temperature: response.data.main.temp,
       humidity: response.data.main.humidity,
       wind: response.data.wind.speed,
-      icon: response.data.weather.icon,
-      iconurl: "https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png",
+      iconurl: `http://openweathermap.org/img/wn/${response.data.weather.icon}@2x.png`,
     });
   }
 
@@ -50,14 +51,14 @@ export default function Weather(props) {
                 className="form-control"
                 autoFocus="on"
                 onChange={handleCityChange}
-              ></input>
+              />
             </div>
             <div className="col-3">
               <input
                 type="submit"
                 value="Search"
                 className="btn btn-primary w-100"
-              ></input>
+              />
             </div>
           </div>
         </form>
