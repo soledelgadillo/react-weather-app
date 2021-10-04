@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import TidyDate from "./TidyDate";
 import "./Weather.css";
 
 export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({ ready: false });
+  const [city, setCity] = useState(props.defaultCity);
 
   function handleResponse(response) {
     setWeatherData({
@@ -23,7 +25,7 @@ export default function Weather(props) {
   function search() {
     const apiKey = "3b3488bec2b782dc10ae81e429f8a644";
     let unit = "metric";
-    let apiUrl = `https://api.openweather.org/data/2.5/weather?q=${props.defaultCity}&appid=${apiKey}&units=${unit}`;
+    let apiUrl = `https://api.openweather.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${unit}`;
     axios.get(apiUrl).then(handleResponse);
   }
 
